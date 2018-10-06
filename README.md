@@ -11,8 +11,7 @@ This application will allow students to do the following
 * Simulate airport activity"
 * "Print current queues to board"
 
-###Editors
-Beteab
+
 
 
 #####Prog Languages and libraries used
@@ -28,12 +27,13 @@ Python
 
 
 
-
+###Contributors
+Beteabv
 
 
 
 
 ###### File Update History
-Created 9/17/2018 - Matthew Muller 
+Created 10/05/2018 - Beteab Gebru
 
 
