@@ -1,4 +1,5 @@
-#Beteab Gebru#Data from MacOs to be ignored
+#Beteab Gebru
+#Data from MacOs to be ignored
 *.DS_Store
 
 #Local Intellij files being ignored
@@ -9,3 +10,10 @@
 
 #sample .txt file used for testing
 Sample.txt
+=======
+#Data from mac OS
+.DS_Store
+
+#Local Intellij files
+.idea
+CoursePlanner.iml
