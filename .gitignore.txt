@@ -1,2 +1,11 @@
-#Beteab Gebru
-#ignorable files
+#Beteab Gebru#Data from MacOs to be ignored
+*.DS_Store
+
+#Local Intellij files being ignored
+*.idea
+#ignore class file
+*.class
+!bin/
+
+#sample .txt file used for testing
+Sample.txt
