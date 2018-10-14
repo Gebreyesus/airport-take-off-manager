@@ -3,7 +3,7 @@
 *.DS_Store
 
 #Local Intellij files being ignored
-.idea
+*.idea
 
 #ignore class file
 *.class
