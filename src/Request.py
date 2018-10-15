@@ -7,7 +7,7 @@ This ADT defines a Request, which is a request made by planes to reserve the run
 """
 
 
-class Request_Node:
+class Request:
 
     def __init__(self, name, subtime, reqstart, reqduration):
         self.flightID = str(name)                 # name of requesting plane/flight
@@ -26,49 +26,49 @@ class Request_Node:
                " -- " + str(self.actualEnd) + " --||"
 
     """
-     @:return __sub_time -the time stamp when request comes in(used to prioritise request)
+     @:return submissionTime -the time stamp when request comes in(used to prioritise request)
     """
-    def get_sub_time(self):
+    def get_submissionTime(self):
         return self.submissionTime
 
     """
     @:return reqStart - the new start time allotted by scheduler
     """
-    def get_req_start(self):
+    def get_reqStart(self):
         return self.reqStart
 
     """
     @:return actualStart - time plane starts to use resource
     """
-    def get_actual_start(self):
+    def get_actualStart(self):
         return self.actualStart
 
     """
-    @:return __flightID - flight identifier is returned 
+    @:return flightID - flight identifier is returned 
     """
-    def get_id(self):
+    def get_flightID(self):
         return self.flightID
 
     """
     @returns the actual end time 
     """
-    def get_actual_end(self):
+    def get_actualEnd(self):
         return self.actualEnd
 
     """
     Returns the amount of time resource is requested for
     """
-    def get_req_duration(self):
+    def get_reqDuration(self):
         return self.reqDuration
 
     """
     @:param start - sets the actual start data attribute (changed by scheduler)
     """
-    def set_actual_start(self, start):
+    def set_actualStart(self, start):
         self.actualStart = start
 
     """
     @:param end - used to set the data attribute(changed by scheduler)
     """
-    def set_actual_end(self, end):
+    def set_actualEnd(self, end):
         self.actualEnd = end
