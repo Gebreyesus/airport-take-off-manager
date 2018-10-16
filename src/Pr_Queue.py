@@ -1,5 +1,3 @@
-#  importing the class Request to be used as a node on a linked list maintaining priority queue
-
 
 """
 Beteab Gebru
@@ -7,80 +5,71 @@ Compilers I - Project 2 : Take-off-Scheduler using python
 10/14/2018
 This class will define a queue ADT - for the takeoff requests submitted by planes
 This class defines the data structure used to implement a priority queue.
-The implementation will use linked list implementation where insertion will factor in priority.
+The implementation will use list implementation where insertion will factor in priority.
 The priority will be, the time, a request is made for a time slot.
-earlier requests will get the slot and others will get pushed to later open slots
+earlier requests will get the slot and others will get pushed to next in line
 """
 
-
-class Node:
-    def __init__(self, payload):
-        self.reqData = payload  # request object is stored as a payload
-        self.next = None
+import Request as Request
 
 
 class priorityQueue:
     def __init__(self):
+        self.scheduleList[1000]  # list able to store max take-offs in a day
         self.first = None
         self.last = None
-        self.length = 0
+        self.length = 0          # number of requests loaded today
 
+    def sizeOfQueue(self):
+        return self.length
+    def getfirst(self):
+        return self.first
+    def getlast(self):
+        return self.last
+
+    """ 
+    @:param current : object representing the current object in the queue being checked for insertion
+    @:param newRequest : new request being enqueues according to priority
+    @returns boolean value : true if new-request holds priority over request being inspected 
+    """
     def Enqueue(self, newReq):
         current = self.first
-        newRequest = newReq
-        #  temp = Node(newRequest)
-        # add first node with request newRequest if queue is empty
-        if current is None | self.length == 0:
-            n = Node(newRequest)
-            self.first = n
-            self.last = n
+        if current is None | self.length == 0:  # enqueue first request with request newRequest if queue is empty
+            self.first = newReq
+            self.last = newReq
             self.length = self.length + 1
             return
-        else:
-            #  otherwise: check if the new request should come first
-            if prioritise(current, newRequest) & (self.length == 1):
-                n = Node(newRequest)
-                n.next = current
+        if self.length > 0 :
+            if :  # if new item is higher priority than current
                 self.first = n
                 self.length = self.length + 1
             return
+        else:
         self.length = self.length + 1
 
         #  current = current.next # moving the pointer to next node(request)
-        while current.next is not None | current.next != last:
-            if prioritise(current.next, newRequest):
-                n = Node(newRequest)
-                n.next = current
-                self.first = n
-                self.length = self.length + 1
+        if self.comparePriority(self, current.next, newReq):
+            n = Node(newReq)
+            n.next = current
+            self.first = n
+            self.length = self.length + 1
             current = current.next
         # if nothing else attach it to the tail of the
-        n = Node(newRequest)
-        n.newRequest = newRequest
+        n = Node(newReq)
+        n.newRequest = newReq
         n.next = current.next
         current.next = n
         self.last = n
         return
 
-
-"""This function will simply call a printer method in the class Request to show us take-off data as time moves along"""
-
-
-def Dequeue(self):
-    temp = self.head
-    while temp is not None:
-        temp.showFlightInfo()
-        temp = temp.next
-
-
-""" 
-@:param current : object representing the current object in the queue being checked for insertion
-@:param newRequest : new request being enqueues according to priority
-@returns boolean value : true if new-request holds priority over request being inspected 
-"""
-
-
-def prioritise(current, newReq):
+    """
+    This method/function will compare the new request with a node from the linked-list queue
+    :param current: represents the current node being examined
+    :param newReq:  represents the node being inserted/enqueued
+    :returns boolean True if the new item is of higher priority hence needing insertion
+    """
+    @staticmethod
+    def comparePriority(current, newReq):
         #  check for first priority : reqStart will indicate earlier takeoff requests
         if current.get_reqStart() < newReq.get_reqStart():
             return False
@@ -93,3 +82,8 @@ def prioritise(current, newReq):
                     return True
             else:
                 return True
+    """This function will simply call a printer method in the class Request to show us take-off data against time"""
+
+    def Dequeue(self, indx):  # will traverse the linked list in its current state from first to last
+        if indx is not None:
+            return self.
