@@ -9,47 +9,55 @@ This class will define all the functions and operations needed for take-off sche
     3. The Pr_Queue will keep the requests in order of priority
     4. It will simulate a days operations using a counter as a time-keeper
 """
+import sys as sys
 import Pr_Queue as Pr_Queue
 import Request as Request
 
 
 class Airport_Driver:
-    scheduleToday = Pr_Queue.priorityQueue()
+    def __init__(self, file_name):
+        self.ScheduleList = []          # will store all request data temporarily
+        self.input_list = []            # A list of request objects from the input file
+        self.__file_name = file_name    # Name of input file as string (i.e. "input.txt")
+        self.__file_name = "Scheduling.txt"
 
-    def __init__(self, Filename):
-        self.inputList = []          # will store all request data temporarily
-        self.fileName = Filename     # Name of input file as string (i.e. "input.txt")
-
-        """
-        In this function we will take assumptions listed below.
-            1. the file format selected is in .txt format 
-            2. each line of text contains the flight request data in the following order
-                { flightID, submissionTime, reqStart, reqDuration, actualStart, actualEnd }
-        The scanner will read the file a line at a time. 
-        It'll instantiate a request object with relevant data read from a line of info.
-        It'll enqueue every object by passing it as a parameter to the Pr_Queue class method that inserts new objects        
-        """
-    def readInput(self):
-        with open(self.fileName) as input_file:
-            whole_file = input_file.read().splitlines()
-            for i in range(len(whole_file)):
-                whole_file[i] = whole_file[i].split(',')
-                for j in range(len(whole_file[i])):
-                    whole_file[i][j] = whole_file[i][j].strip()
-
-        for item in whole_file:
-            self.inputList.append((item[0], int(item[1]), int(item[2]), int(item[3])))
-            anotherRequest = Request.ConstructRequest(item[0], int(item[1]), int(item[2]), int(item[3]))
-            self.scheduleToday.Enqueue(anotherRequest)
+    print('Done With __init function -->Airportdriver')   # Debug line *******************************
 
     """
-    This method will be called from main to get the ball rolling
-         First we call readInput is called to read the data items from the file and store them in a temp list
-         Timer is set to 0 and will be used to control a simulation loop
-    The simulation will do the following things
-    - will check to see if the tak-off has occurred for the scheduled flight 
-    - it will dequeue the next request for take-off after 1 second(=1count on the timer)
-    - it'll know it's done de-queueing once we reach the last node on the chain
+    In this function we will take assumptions listed below.
+        1. the file format selected is in .txt format 
+        2. each line of text contains the flight request data in the following order
+            { flightID, submissionTime, reqStart, reqDuration}
+        When program simulates a run there will be new values for actual takeoff times
+            { flightID, submissionTime, reqStart, reqDuration, actualStart, actualEnd }
+    The scanner will read the file a line at a time. 
+    It'll instantiate a request object with relevant data read from a line of info.
+    It'll enqueue every object by passing it as a parameter to the Pr_Queue class method that inserts new objects        
     """
-    def run(self):
-            
+    def process_input(self):
+            request_data = ["name", 0, 0, 0]
+            req_data_counter = 0
+            with open(self.__file_name) as input_file:
+                whole_file = input_file.read().splitlines()
+                print('Opened file to read the file********************')  # Debugging line
+                # days_takeoff_list = Pr_Queue(len(whole_file))  # creating queue sized number of lines in file
+                for i in range(len(whole_file)):
+                    whole_file[i] = whole_file[i].split(',')    # use comma as a delimiter
+                    for j in range(len(whole_file[i])):
+                        whole_file[i][j] = whole_file[i][j].strip()
+                        #  print("Data outer-loop: " + whole_file[i][j])   # Debugging line
+                        if req_data_counter > 3:
+                            # create object, having read all values for a single req
+                            new_request_object = Request.Request(request_data[0], request_data[1], request_data[2],
+                                                                 request_data[3])
+                            print("Requests Data : " + new_request_object.get_flightID() + " : ")
+                            print(new_request_object.showFlightInfo())
+
+                            # new_request_object
+                            req_data_counter = 0  # resetting index counter to start reading new request data
+                        if req_data_counter < 4:    # we will break the data into units
+                            #  print("Data inner-loop: " + whole_file[i][j])   # Debugging line
+                            request_data[req_data_counter] = whole_file[i][j]
+                            req_data_counter = req_data_counter + 1
+                    # days_takeoff_list(newreq)
+                    # print('Done With process_input function') # Debugging line
