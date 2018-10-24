@@ -1,89 +1,49 @@
-
 """
 Beteab Gebru
 Compilers I - Project 2 : Take-off-Scheduler using python
 10/14/2018
-This class will define a queue ADT - for the takeoff requests submitted by planes
-This class defines the data structure used to implement a priority queue.
-The implementation will use list implementation where insertion will factor in priority.
-The priority will be, the time, a request is made for a time slot.
-earlier requests will get the slot and others will get pushed to next in line
+
+This class defines a priority queue data structure, using heapq from python library
 """
+import Request
+import heapq
 
-import Request as Request
 
-
-class priorityQueue:
+class PriorityQueue:
     def __init__(self):
-        self.scheduleList[1000]  # list able to store max take-offs in a day
-        self.first = None
-        self.last = None
-        self.length = 0          # number of requests loaded today
-
-    def sizeOfQueue(self):
-        return self.length
-    def getfirst(self):
-        return self.first
-    def getlast(self):
-        return self.last
-
-    """ 
-    @:param current : object representing the current object in the queue being checked for insertion
-    @:param newRequest : new request being enqueues according to priority
-    @returns boolean value : true if new-request holds priority over request being inspected 
-    """
-    def Enqueue(self, newReq):
-        current = self.first
-        if current is None | self.length == 0:  # enqueue first request with request newRequest if queue is empty
-            self.first = newReq
-            self.last = newReq
-            self.length = self.length + 1
-            return
-        if self.length > 0 :
-            if :  # if new item is higher priority than current
-                self.first = n
-                self.length = self.length + 1
-            return
-        else:
-        self.length = self.length + 1
-
-        #  current = current.next # moving the pointer to next node(request)
-        if self.comparePriority(self, current.next, newReq):
-            n = Node(newReq)
-            n.next = current
-            self.first = n
-            self.length = self.length + 1
-            current = current.next
-        # if nothing else attach it to the tail of the
-        n = Node(newReq)
-        n.newRequest = newReq
-        n.next = current.next
-        current.next = n
-        self.last = n
-        return
+        self.queue = []
+        self.index = 0
 
     """
-    This method/function will compare the new request with a node from the linked-list queue
-    :param current: represents the current node being examined
-    :param newReq:  represents the node being inserted/enqueued
-    :returns boolean True if the new item is of higher priority hence needing insertion
-    """
-    @staticmethod
-    def comparePriority(current, newReq):
-        #  check for first priority : reqStart will indicate earlier takeoff requests
-        if current.get_reqStart() < newReq.get_reqStart():
-            return False
-        else:
-            if current.get_reqStart() == newReq.get_reqStart():  # if request time is occupied
-                #  if requested slot is already taken check for priority#2 ->get_submissionTime
-                if current.get_submissionTime < newReq.get_submissionTime:
-                    return False  # return false of the current one is higher on a second priority qualifier
-                else:
-                    return True
-            else:
-                return True
-    """This function will simply call a printer method in the class Request to show us take-off data against time"""
+    method takes a new item and uses 1st and 2nd priority attributes to insert it
 
-    def Dequeue(self, indx):  # will traverse the linked list in its current state from first to last
-        if indx is not None:
-            return self.
+    The heappush method from heapq is called with the list that stores the queue and then a tuple with the primary and
+    secondary priorities, the index and the item to be pushed. The heappush method uses the primary priority first, the
+    secondary priority next and finally the index to order the items. No two items will ever have the same index so this
+    value is the tie breaker in the case that the primary and secondary priorities are the same for two or more items
+    added to the queue. The item with the lowest priority is at the top of the queue (will be popped first). After the
+    item is added to the queue, the index is incremented.
+    """
+
+    def enqueue(self, item, req_start, submission_time):
+        heapq.heappush(self.__q, (req_start, submission_time, self.index, item))
+        self.index += 1
+
+    """
+    Uses the heapq heappop method to return the smallest item in the queue (with the lowest priority).
+
+    This function returns the last item in the tuple that is returned by heappop because heappop doesn't necessarily
+    know how many priorities you have defined. The last item in this tuple is always the item added to the queue.
+    """
+
+    def dequeue(self):
+        return heapq.heappop(self.queue)[-1]
+
+    """
+        checks if queue length is zero
+        returns true if queue is empty, false otherwise
+
+    """
+
+    def empty(self):
+        return len(self.queue) == 0
