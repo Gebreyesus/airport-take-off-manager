@@ -17,19 +17,24 @@ class Request:
         self.__actual_end = 0  # Exit timestamp for the tak-off
         self.__submission_time = subtime  # Time stamp when request is submitted
         self.__req_start = reqstart  # When does the plane want to takeoff
-        self.__next = None  # Stores value of the next flight
-        # self.__prev = None                    # stores the index of the prev flight
-        print('Done With __init function -->Request class')  # Debug line *******************************
+        self.next = None  # Stores value of the next flight
+        self.prev = None                    # stores the index of the prev flight
+        # print('Done With __init function -->Request class')  # Debug line *******************************
 
     def showFlightInfo(self):
         """
         This function will return well formatted info on a particular takeoff
         @:return String : Format{ flightID, submissionTime, reqStart, reqDuration, actualStart, actualEnd }
         """
-        return(" :||-- " + self.__flight_ID + " -- " + str(self.__submission_time) + " -- " + str(self.__req_start) +
-        " -- " + str(self.__req_duration) + " -- " + str(self.__actual_start) +
-        " -- " + str(self.__actual_end) + " --||")
+        return (" :{" + self.__flight_ID + "} -  {" + str(self.__submission_time) + "} - {" + str(self.__req_start) +
+                "} - {" + str(self.__req_duration) + "} - {" + str(self.__actual_start) +
+                "} - {" + str(self.__actual_end) + "}")
 
+    def __repr__(self):
+        return '{} : {} : {}: {} : {}: {} '.format(self.__flight_ID, self.__submission_time, self.__req_start,
+                                                   self.__req_duration, self.__actual_start, self.__actual_end)
+
+    #  ------------------------------------------------------getter functions
     def get_submissionTime(self):
         """
         @:return submissionTime -the time stamp when request comes in(used to prioritise request)
@@ -66,6 +71,8 @@ class Request:
         """
         return self.__req_duration
 
+    #  ------------------------------------------------------setter functions
+
     def set_actualStart(self, start):
         """
         @:param start - sets the actual start data attribute (changed by scheduler)
@@ -78,13 +85,16 @@ class Request:
         """
         self.__actual_end = end
 
+    """
     def set_nextFlight(self, Nxt):
-        """
+        
         @:param Nxt - used to set the data attribute(changed by scheduler)
+       
+        self.next = Nxt
         """
-        self.__next = Nxt
-        """    
-        def set_prevFlight(self, Prv):
+
+    """    
+    def set_prevFlight(self, Prv):
         @:param Prv - used to set the data attribute(changed by scheduler)
         self.__prev = Prv
         """
