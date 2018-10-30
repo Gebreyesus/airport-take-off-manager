@@ -43,8 +43,6 @@ class Airport_Driver:
         # CALLING  method set_takeoff_time() to set take-off times
         source_list = self.set_takeoff_time(source_list)
 
-
-
         print("========================End of Simulation()*")
 
     def __sort_by_priority(self, input_list):
@@ -59,18 +57,19 @@ class Airport_Driver:
         # temp1 = input_list.sort(key=operator.attrgetter("submission_time"))
         # temp1 = temp1.sort(key=operator.attrgetter(str("__req_start")))
 
-        # sending one item from list at a time to be enqueued
+        # sending one item from list at a time to be enqueued ensuring sorted-nes
         for j in range(len(input_list)):
             self.current_queue.enqueue(input_list[j])
-            print("Enqueued the FF item from Input list :" + input_list[j].showFlightInfo())
-            print("*Enqueued the FF item from Queue :" + self.current_queue.dequeue(j).showFlightInfo())
+            # print("Enqueued the FF item from Input list :" + input_list[j].showFlightInfo())
+            # print("*De-queued the FF item from Queue :" + self.current_queue.dequeue(j).showFlightInfo())
+        """
+           if input_list[i].get_reqStart <= self.current_queue.first.get_reqStart:
+               if input_list[i].get_submissionTime <= self.current_queue.first.get_submissionTime:
+                   temp = self.current_queue.first
+               self.current_queue.first = input_list[i]
+               self.current_queue.first.next = temp"""
         print("========================End of __sort_by_priority() Method *")
-    """
-    if input_list[i].get_reqStart <= self.current_queue.first.get_reqStart:
-        if input_list[i].get_submissionTime <= self.current_queue.first.get_submissionTime:
-            temp = self.current_queue.first
-        self.current_queue.first = input_list[i]
-        self.current_queue.first.next = temp"""
+
 
     @staticmethod
     def set_takeoff_time(input_list):
@@ -91,23 +90,12 @@ class Airport_Driver:
 
             for i in range(1, len(input_list)):  # from 2nd item onwards
                 wait_period = input_list[i - 1].get_actualStart() + (int(input_list[i - 1].get_reqDuration()))
-                newstart = wait_period + int(input_list[i].get_reqStart())
-
-                print("takeoff time for plane :" + input_list[i].get_flightID() + " new takeoff time-> " +
-                      str(wait_period) + " new start: " + str(newstart))
-
-                if (int(input_list[i].get_reqStart())) < wait_period:
-                    """print("Another plane is taxiing -> we must wait::new start is: " + str(newstart))
-                    print("wait period is: " + str(wait_period))
-                    print("req start time is: " + str(input_list[i].get_reqStart()))
-                    print("new start time is: " + str(newstart))"""
-                    input_list[i].set_actualStart(wait_period)
-                else:
-                    input_list[i].set_actualStart(input_list[i].get_actualStart())
-
+                input_list[i].set_actualStart(wait_period)
+                
                 for j in range(len(input_list)):
                     input_list[j].set_actualEnd(
                         (int(input_list[j].get_reqDuration())+int(input_list[j].get_actualStart())))
+                    
         print("========================finished calc take-off times *")
         # Testing if we have adjusted actual takeoff start and end times for each flight
         Airport_Driver.display_contents(input_list)
